@@ -8,17 +8,17 @@ const Navbar = () => {
             scrollTrigger: {
                 trigger: "nav",
                 start: "bottom top",
-                markers: true,
+                scrub: 1,
             }
         })
-        navTween.fromTo("nav", { 
-            backgroundColor: "transparent" 
-        }, {
-            backgroundColor: "#00000050",
-            backgroundFileter: "blur(10px)",
-            ease: "power1.inOut",
-            duration: 1
-        });
+        navTween.fromTo("nav", 
+            { 
+                backgroundColor: "transparent",
+            }, {
+                backgroundColor: "#00000050",
+                backgroundFilter: "blur(10px)",
+                ease: "power1.inOut",
+            });
     }, [])
 
     return (
