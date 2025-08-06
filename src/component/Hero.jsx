@@ -59,6 +59,45 @@ const Hero = () => {
                 currentTime: videoRef.current.duration,
             });
         }
+        // Uncomment the following code if you want to play/pause the video automatically
+        // let hasPlayed = false;
+        // const videoTimelineRef = gsap.timeline({
+        //     scrollTrigger: {
+        //         trigger: "#hero",
+        //         // start: startValue,
+        //         // end: endValue,
+        //         scrub: true,
+        //         pin: "video",
+        //         markers: true,
+        //         onEnter: () => {
+        //             if (!hasPlayed) {
+        //                 videoRef.current.play();
+        //                 hasPlayed = true;
+        //             }
+        //         },
+        //         onEnterBack: () => {
+        //             if (!hasPlayed) {
+        //                 videoRef.current.play();
+        //                 hasPlayed = true;
+        //             }
+        //         },
+        //         onLeave: () => {
+        //             videoRef.current.pause();
+        //         },
+        //         onLeaveBack: () => videoRef.current.pause(),
+        //     }
+        // });
+        // videoTimelineRef
+        // .fromTo(videoRef.current, {
+        //     // currentTime: 0,
+        //     opacity: 0.5,
+        // }, {
+        //     // currentTime: 10,
+        //     ease: "none",
+        //     opacity: 1,
+        //     scale: 1
+        // }, 0);
+
     },[]);
 
     return (
