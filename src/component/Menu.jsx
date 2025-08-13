@@ -1,31 +1,53 @@
 import React, { useState, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import {allCocktails} from '../../constants';
+import { allCocktails } from '../../constants';
 
 const Menu = () => {
     const contentRef = useRef();
     const [currentIndex, setCurrentIndex] = useState(0);
     const totalCocktails = allCocktails.length;
+    const animatingRef = useRef(false);
 
     useGSAP(() => {
-        gsap.fromTo("#title",{ opacity:0 }, { opacity:1, duration: 1 });
-        gsap.fromTo(".cocktail img", { opacity: 0, xPercent: -100 }, { 
-            opacity: 1, duration: 1, xPercent: 0, ease: "power1.inOut" });
+        const tl = gsap.timeline({ defaults: { ease: 'power1.inOut' } });
 
-        gsap.fromTo(".details h2", { opacity: 0, yPercent: 100 }, {
-            opacity: 1, duration: 1, yPercent: 0, ease: "power1.inOut" 
-        });
-        gsap.fromTo(".details p", { opacity: 0, yPercent: 100 }, {
-            opacity: 1, duration: 1, yPercent: 0, ease: "power1.inOut" 
-        });
+        tl.fromTo("#title", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0)
+            .fromTo(".cocktail img", { opacity: 0, xPercent: -100 }, {
+                opacity: 1, duration: 0.5, xPercent: 0, ease: "power1.inOut"
+            }, 0)
 
-        const distance = 1;
+            .fromTo(".details h2", { opacity: 0, yPercent: 100 }, {
+                opacity: 1, duration: 0.5, yPercent: 0, ease: "power1.inOut"
+            }, 0)
+            .fromTo(".details p", { opacity: 0, yPercent: 100 }, {
+                opacity: 1, duration: 0.5, yPercent: 0, ease: "power1.inOut"
+            }, 0)
+            .fromTo(".arrows span", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.inOut" }, 0)
+        return () => tl.kill();
     }, [currentIndex]);
 
     const goToSlide = (index) => {
+        if (animatingRef.current) return;
+        animatingRef.current = true;
         const newIndex = (index + totalCocktails) % totalCocktails;
-        setCurrentIndex(newIndex);
+
+        const tl = gsap.timeline({
+            defaults: { ease: 'power1.inOut' },
+            onComplete: () => {
+                setCurrentIndex(newIndex);
+                animatingRef.current = false;
+            },
+        });
+        tl.to(".cocktail img", { opacity: 0, duration: 0.5, xPercent: 200, ease: "power1.out" }, 0)
+            .to("#title", { opacity: 0, duration: 0.8 }, 0)
+            .to(".details h2", { opacity: 0, yPercent: 200, duration: 0.5, ease: "power1.inOut" }, 0)
+            .to(".details p", { opacity: 0, yPercent: 200, duration: 0.5, ease: "power1.inOut" }, 0)
+            .to(".arrows span", { opacity: 0, duration: 0.3, ease: "power1.inOut" }, "-=0.2")
+
+        setTimeout(() => {
+            setCurrentIndex(newIndex);
+        }, 1000);
     }
 
     const getCocktailAt = (indexOffset) => {
@@ -66,7 +88,7 @@ const Menu = () => {
                         <img src='/images/right-arrow.png' alt='right-arrow' aria-hidden='true' />
                     </button>
 
-                    <button className='text-left' onClick={() => goToSlide(currentIndex - 1)}>
+                    <button className='text-left' onClick={() => goToSlide(currentIndex + 1)}>
                         <span>{nextCocktail.name}</span>
                         <img src='/images/left-arrow.png' alt='left-arrow' aria-hidden='true' />
                     </button>
