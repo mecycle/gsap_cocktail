@@ -365,7 +365,7 @@ body {
             }
 
             p {
-                @apply lg:text-2xl 2xl:text-3xl text-sm;
+                @apply lg:text-2xl 2xl:text-2xl text-sm;
             }
         }
 

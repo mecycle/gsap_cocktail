@@ -44,10 +44,6 @@ const Menu = () => {
             .to(".details h2", { opacity: 0, yPercent: 200, duration: 0.5, ease: "power1.inOut" }, 0)
             .to(".details p", { opacity: 0, yPercent: 200, duration: 0.5, ease: "power1.inOut" }, 0)
             .to(".arrows span", { opacity: 0, duration: 0.3, ease: "power1.inOut" }, "-=0.2")
-
-        setTimeout(() => {
-            setCurrentIndex(newIndex);
-        }, 1000);
     }
 
     const getCocktailAt = (indexOffset) => {
